@@ -32,6 +32,7 @@ setup_args = dict(
 
     install_requires=(
         'Django>=1.8',
+        'pylint'
     ),
 )
 
@@ -40,10 +41,9 @@ try:
     setup_args['entry_points'] = {
         "console_scripts" : ['django-lint = DjangoLint.script:main',]
     }
-    setup_args['install_requires'] = ['pylint']
 except ImportError:
     from distutils.core import setup
     setup_args['scripts']=['django-lint',]
-    setup_args['requires'] = ['pylint']
+    setup_args['requires'] = setup_args['install_requires'][:]
 
 setup(**setup_args)
