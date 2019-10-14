@@ -15,6 +15,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import os
 
 import astroid
 
@@ -55,7 +56,9 @@ class SettingsChecker(BaseChecker):
     }
 
     def leave_module(self, node):
-        if node.name.split('.')[-1] != 'settings':
+        dj_settings_module = os.getenv('DJANGO_SETTINGS_MODULE', None) or 'settings'
+
+        if not node.name.endswith(dj_settings_module):
             return
 
         self.check_required_fields(node)
